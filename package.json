@@ -68,5 +68,9 @@
     }
   },
   "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fahadsaleem020/retap-buttons.git"
+  }
 }
