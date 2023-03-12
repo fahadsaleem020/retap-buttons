@@ -1,1 +1,1 @@
-# retap editor buttons
+# chakra editor buttons
