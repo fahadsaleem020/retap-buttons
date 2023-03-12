@@ -1,5 +1,5 @@
 import {
-  isButtonActive,
+  isNodeOrMarkActive,
   toggleBold,
   toggleBulletList,
   toggleNumberedList,
@@ -48,7 +48,7 @@ import {
   inrceaseTextIndent,
   decreaseTextIndent,
   isExtension,
-} from "@retap/functions";
+} from "@chakra-editor/functions";
 
 import {
   Checkbox,
@@ -114,12 +114,12 @@ import {
   AiOutlineDrag,
 } from "react-icons/ai";
 import React, { useState, useRef, MouseEvent, DOMAttributes, FC } from "react";
-import { TableComponent, LinkEditor, LinkModal } from "@retap/components";
-import { RetapToolbarButtonProps, RenderElementFC } from "@retap/types";
-import { useTable } from "@retap/hooks";
-import { useRetap } from "@retap/provider";
+import { TableComponent, LinkEditor, LinkModal } from "@chakra-editor/components";
+import { ToolbarButtonProps, RenderElementFC } from "@chakra-editor/types";
+import { useTable } from "@chakra-editor/hooks";
+import { useEditor } from "@chakra-editor/provider";
 
-export const BoldButton: FC<RetapToolbarButtonProps> = ({
+export const BoldButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -136,7 +136,7 @@ export const BoldButton: FC<RetapToolbarButtonProps> = ({
       title="bold"
       aria-label="bold-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "bold" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "bold" }) ? "solid" : "outline"
       }
       onClick={() => toggleBold({ editor })}
       icon={
@@ -152,11 +152,11 @@ export const BoldButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const VideoButton: FC<RetapToolbarButtonProps> = ({
+export const VideoButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
-  const { video } = useRetap();
+  const { video } = useEditor();
   const element = buttonProps?.video?.replace!;
 
   if (element) {
@@ -171,7 +171,7 @@ export const VideoButton: FC<RetapToolbarButtonProps> = ({
       title="video"
       aria-label="video-modal-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "video" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "video" }) ? "solid" : "outline"
       }
       onClick={() => video?.modalProps?.onOpen!()}
       icon={
@@ -187,7 +187,7 @@ export const VideoButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const ClearFormatsButton: FC<RetapToolbarButtonProps> = ({
+export const ClearFormatsButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -219,7 +219,7 @@ export const ClearFormatsButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const BlockQuoteButton: FC<RetapToolbarButtonProps> = ({
+export const BlockQuoteButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -235,7 +235,7 @@ export const BlockQuoteButton: FC<RetapToolbarButtonProps> = ({
       title="block quote"
       aria-label="blockquote-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "blockquote" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "blockquote" })
           ? "solid"
           : "outline"
       }
@@ -253,20 +253,20 @@ export const BlockQuoteButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const ListButton: FC<RetapToolbarButtonProps> = ({
+export const ListButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
   const isAnyListActive =
-    isButtonActive({ editor, nodeOrMark: "bulletList" }) ||
-    isButtonActive({ editor, nodeOrMark: "orderedList" });
+    isNodeOrMarkActive({ editor, nodeOrMark: "bulletList" }) ||
+    isNodeOrMarkActive({ editor, nodeOrMark: "orderedList" });
   const listElement = buttonProps?.list?.replace;
   const bulletListElement = buttonProps?.bulletList?.replace;
   const numberedListElement = buttonProps?.list?.orderedList?.replace;
   const sinkListNode = buttonProps?.list?.sinkList?.replace;
   const liftListNode = buttonProps?.list?.liftList?.replace;
 
-  const iconButton = !isButtonActive({ editor, nodeOrMark: "bulletList" }) ? (
+  const iconButton = !isNodeOrMarkActive({ editor, nodeOrMark: "bulletList" }) ? (
     <AiOutlineOrderedList
       size={20}
       {...buttonProps?.globalButtonProps?.iconstyles}
@@ -379,7 +379,7 @@ export const ListButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const SinkListButton: FC<RetapToolbarButtonProps> = ({
+export const SinkListButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -411,7 +411,7 @@ export const SinkListButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const LiftListButton: FC<RetapToolbarButtonProps> = ({
+export const LiftListButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -443,7 +443,7 @@ export const LiftListButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const BulletListButton: FC<RetapToolbarButtonProps> = ({
+export const BulletListButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -459,7 +459,7 @@ export const BulletListButton: FC<RetapToolbarButtonProps> = ({
     <IconButton
       title="bullet list"
       variant={
-        isButtonActive({ editor, nodeOrMark: "bulletList" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "bulletList" })
           ? "solid"
           : "outline"
       }
@@ -478,7 +478,7 @@ export const BulletListButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const NumberedListButton: FC<RetapToolbarButtonProps> = ({
+export const NumberedListButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -494,7 +494,7 @@ export const NumberedListButton: FC<RetapToolbarButtonProps> = ({
     <IconButton
       title="numbered list"
       variant={
-        isButtonActive({ editor, nodeOrMark: "orderedList" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "orderedList" })
           ? "solid"
           : "outline"
       }
@@ -513,7 +513,7 @@ export const NumberedListButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const LinkInlineButton: FC<RetapToolbarButtonProps> = ({
+export const LinkInlineButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -542,7 +542,7 @@ export const LinkInlineButton: FC<RetapToolbarButtonProps> = ({
         title="link"
         aria-label="link-toggler-button"
         variant={
-          isButtonActive({ editor, nodeOrMark: "link" }) ? "solid" : "outline"
+          isNodeOrMarkActive({ editor, nodeOrMark: "link" }) ? "solid" : "outline"
         }
         icon={
           <MdLink
@@ -564,7 +564,7 @@ export const LinkInlineButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const HeadingButton: FC<RetapToolbarButtonProps<SelectProps>> = ({
+export const HeadingButton: FC<ToolbarButtonProps<SelectProps>> = ({
   editor,
   ...buttonProps
 }) => {
@@ -599,13 +599,13 @@ export const HeadingButton: FC<RetapToolbarButtonProps<SelectProps>> = ({
   );
 };
 
-export const YoutubeButton: FC<RetapToolbarButtonProps> = ({
+export const YoutubeButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
   const element = buttonProps?.youtube?.replace;
 
-  const { youtube } = useRetap();
+  const { youtube } = useEditor();
 
   if (element) {
     return renderElement({
@@ -619,7 +619,7 @@ export const YoutubeButton: FC<RetapToolbarButtonProps> = ({
       title="youtube"
       aria-label="youtube-modal-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "youtube" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "youtube" }) ? "solid" : "outline"
       }
       onClick={youtube?.modalProps?.onOpen!}
       icon={
@@ -635,11 +635,11 @@ export const YoutubeButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const ImageButton: FC<RetapToolbarButtonProps> = ({
+export const ImageButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
-  const { image } = useRetap();
+  const { image } = useEditor();
   const element = buttonProps?.image?.replace;
 
   if (element) {
@@ -654,7 +654,7 @@ export const ImageButton: FC<RetapToolbarButtonProps> = ({
       title="image"
       aria-label="image-modal-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "image" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "image" }) ? "solid" : "outline"
       }
       onClick={() => image?.modalProps?.onOpen!()}
       icon={
@@ -670,7 +670,7 @@ export const ImageButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const LinkButton: FC<RetapToolbarButtonProps> = ({
+export const LinkButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -695,7 +695,7 @@ export const LinkButton: FC<RetapToolbarButtonProps> = ({
         title="link"
         aria-label="link-editor-button"
         variant={
-          isButtonActive({ editor, nodeOrMark: "link" }) ? "solid" : "outline"
+          isNodeOrMarkActive({ editor, nodeOrMark: "link" }) ? "solid" : "outline"
         }
         onClick={onOpen}
         icon={
@@ -713,7 +713,7 @@ export const LinkButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const ClearLinkButton: FC<RetapToolbarButtonProps> = ({
+export const ClearLinkButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -738,7 +738,7 @@ export const ClearLinkButton: FC<RetapToolbarButtonProps> = ({
     <IconButton
       title="remove link"
       variant={
-        isButtonActive({ editor, nodeOrMark: "link" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "link" }) ? "solid" : "outline"
       }
       icon={iconButton}
       onClick={() => removeUrl({ editor })}
@@ -749,7 +749,7 @@ export const ClearLinkButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const ItalicButton: FC<RetapToolbarButtonProps> = ({
+export const ItalicButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -765,7 +765,7 @@ export const ItalicButton: FC<RetapToolbarButtonProps> = ({
       title="italic"
       aria-label="italic-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "italic" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "italic" }) ? "solid" : "outline"
       }
       onClick={() => toggleItalic({ editor })}
       icon={
@@ -781,7 +781,7 @@ export const ItalicButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const StrikeButton: FC<RetapToolbarButtonProps> = ({
+export const StrikeButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -797,7 +797,7 @@ export const StrikeButton: FC<RetapToolbarButtonProps> = ({
       title="strike through"
       aria-label="strike-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "strike" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "strike" }) ? "solid" : "outline"
       }
       onClick={() => toggleStrike({ editor })}
       icon={
@@ -813,7 +813,7 @@ export const StrikeButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const UnderlineButton: FC<RetapToolbarButtonProps> = ({
+export const UnderlineButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -829,7 +829,7 @@ export const UnderlineButton: FC<RetapToolbarButtonProps> = ({
       title="underline"
       aria-label="underline-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "underline" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "underline" })
           ? "solid"
           : "outline"
       }
@@ -847,7 +847,7 @@ export const UnderlineButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const CodeBlockButton: FC<RetapToolbarButtonProps> = ({
+export const CodeBlockButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -863,7 +863,7 @@ export const CodeBlockButton: FC<RetapToolbarButtonProps> = ({
       title="code block"
       aria-label="codeBlock-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "codeBlockLowLight" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "codeBlockLowLight" })
           ? "solid"
           : "outline"
       }
@@ -881,7 +881,7 @@ export const CodeBlockButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const HardBreakButton: FC<RetapToolbarButtonProps> = ({
+export const HardBreakButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -911,7 +911,7 @@ export const HardBreakButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const SubscriptButton: FC<RetapToolbarButtonProps> = ({
+export const SubscriptButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -927,7 +927,7 @@ export const SubscriptButton: FC<RetapToolbarButtonProps> = ({
       title="subscript"
       aria-label="subscript-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "subscript" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "subscript" })
           ? "solid"
           : "outline"
       }
@@ -945,7 +945,7 @@ export const SubscriptButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const SuperscriptButton: FC<RetapToolbarButtonProps> = ({
+export const SuperscriptButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -961,7 +961,7 @@ export const SuperscriptButton: FC<RetapToolbarButtonProps> = ({
       title="superscript"
       aria-label="superscript-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "superscript" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "superscript" })
           ? "solid"
           : "outline"
       }
@@ -979,7 +979,7 @@ export const SuperscriptButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const FontColorButton: FC<RetapToolbarButtonProps> = ({
+export const FontColorButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1104,7 +1104,7 @@ export const FontColorButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const HighlightColorButton: FC<RetapToolbarButtonProps> = ({
+export const HighlightColorButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1231,7 +1231,7 @@ export const HighlightColorButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const HorizontalLineButton: FC<RetapToolbarButtonProps> = ({
+export const HorizontalLineButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1247,7 +1247,7 @@ export const HorizontalLineButton: FC<RetapToolbarButtonProps> = ({
       title="horizontal line"
       aria-label="horizontalLine-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "horizontalRule" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "horizontalRule" })
           ? "solid"
           : "outline"
       }
@@ -1265,7 +1265,7 @@ export const HorizontalLineButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const UndoButton: FC<RetapToolbarButtonProps> = ({
+export const UndoButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1296,7 +1296,7 @@ export const UndoButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const RedoButton: FC<RetapToolbarButtonProps> = ({
+export const RedoButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1327,7 +1327,7 @@ export const RedoButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const ClearContentsButton: FC<RetapToolbarButtonProps> = ({
+export const ClearContentsButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1357,7 +1357,7 @@ export const ClearContentsButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const FontFamilyButton: FC<RetapToolbarButtonProps> = ({
+export const FontFamilyButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1396,7 +1396,7 @@ export const FontFamilyButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const TextAlignButton: FC<RetapToolbarButtonProps> = ({
+export const TextAlignButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1556,7 +1556,7 @@ export const TextAlignButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const FontSizeButton: FC<RetapToolbarButtonProps> = ({
+export const FontSizeButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1600,7 +1600,7 @@ export const FontSizeButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const LeftAlignButton: FC<RetapToolbarButtonProps> = ({
+export const LeftAlignButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1634,7 +1634,7 @@ export const LeftAlignButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const RightAlignButton: FC<RetapToolbarButtonProps> = ({
+export const RightAlignButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1670,7 +1670,7 @@ export const RightAlignButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const CenterAlignButton: FC<RetapToolbarButtonProps> = ({
+export const CenterAlignButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1706,7 +1706,7 @@ export const CenterAlignButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const JustifyTextButton: FC<RetapToolbarButtonProps> = ({
+export const JustifyTextButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1742,7 +1742,7 @@ export const JustifyTextButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const TableButton: FC<RetapToolbarButtonProps> = ({
+export const TableButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -1825,7 +1825,7 @@ export const TableButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const DeleteTableButton: FC<RetapToolbarButtonProps> = ({
+export const DeleteTableButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1853,7 +1853,7 @@ export const DeleteTableButton: FC<RetapToolbarButtonProps> = ({
       aria-label="delete-button"
       onClick={() => deleteTable({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.deleteTable}
@@ -1861,7 +1861,7 @@ export const DeleteTableButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const InsertRowBelowButton: FC<RetapToolbarButtonProps> = ({
+export const InsertRowBelowButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1889,7 +1889,7 @@ export const InsertRowBelowButton: FC<RetapToolbarButtonProps> = ({
       aria-label="insert-row-below-button"
       onClick={() => insertRowAfter({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.insertRowBelow}
@@ -1897,7 +1897,7 @@ export const InsertRowBelowButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const InsertRowAboveButton: FC<RetapToolbarButtonProps> = ({
+export const InsertRowAboveButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1925,7 +1925,7 @@ export const InsertRowAboveButton: FC<RetapToolbarButtonProps> = ({
       aria-label="insert-row-above-button"
       onClick={() => insertRowBefore({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.insertRowAbove}
@@ -1933,7 +1933,7 @@ export const InsertRowAboveButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const InsertColumnRightButton: FC<RetapToolbarButtonProps> = ({
+export const InsertColumnRightButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1961,7 +1961,7 @@ export const InsertColumnRightButton: FC<RetapToolbarButtonProps> = ({
       aria-label="insert-column-right-button"
       onClick={() => insertColumnAfter({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.insertColumnRight}
@@ -1969,7 +1969,7 @@ export const InsertColumnRightButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const InsertColumnLeftButton: FC<RetapToolbarButtonProps> = ({
+export const InsertColumnLeftButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -1997,7 +1997,7 @@ export const InsertColumnLeftButton: FC<RetapToolbarButtonProps> = ({
       aria-label="insert-column-left-button"
       onClick={() => insertColumnBefore({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.insertColumnLeft}
@@ -2005,7 +2005,7 @@ export const InsertColumnLeftButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const DeleteColumnButton: FC<RetapToolbarButtonProps> = ({
+export const DeleteColumnButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -2033,7 +2033,7 @@ export const DeleteColumnButton: FC<RetapToolbarButtonProps> = ({
       aria-label="delete-column-button"
       onClick={() => deleteColumn({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.deleteColumn}
@@ -2041,7 +2041,7 @@ export const DeleteColumnButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const DeleteRowButton: FC<RetapToolbarButtonProps> = ({
+export const DeleteRowButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -2069,7 +2069,7 @@ export const DeleteRowButton: FC<RetapToolbarButtonProps> = ({
       aria-label="delete-row-button"
       onClick={() => deleteRow({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.deleteRow}
@@ -2077,7 +2077,7 @@ export const DeleteRowButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const MergeCellsButton: FC<RetapToolbarButtonProps> = ({
+export const MergeCellsButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -2105,7 +2105,7 @@ export const MergeCellsButton: FC<RetapToolbarButtonProps> = ({
       aria-label="merge-cells-button"
       onClick={() => mergeCells({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.mergeCells}
@@ -2113,7 +2113,7 @@ export const MergeCellsButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const SplitCellButton: FC<RetapToolbarButtonProps> = ({
+export const SplitCellButton: FC<ToolbarButtonProps> = ({
   editor,
   globalButtonProps,
   ...buttonProps
@@ -2141,7 +2141,7 @@ export const SplitCellButton: FC<RetapToolbarButtonProps> = ({
       aria-label="split-cells-button"
       onClick={() => splitCell({ editor })}
       variant={
-        isButtonActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
+        isNodeOrMarkActive({ editor, nodeOrMark: "table" }) ? "solid" : "outline"
       }
       {...globalButtonProps}
       {...buttonProps?.splitCell}
@@ -2149,7 +2149,7 @@ export const SplitCellButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const IncreaseIndentButton: FC<RetapToolbarButtonProps> = ({
+export const IncreaseIndentButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -2166,7 +2166,7 @@ export const IncreaseIndentButton: FC<RetapToolbarButtonProps> = ({
       title="increase Indent"
       aria-label="increase-indent-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "textIndent" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "textIndent" })
           ? "solid"
           : "outline"
       }
@@ -2184,7 +2184,7 @@ export const IncreaseIndentButton: FC<RetapToolbarButtonProps> = ({
   );
 };
 
-export const DecreaseIndentButton: FC<RetapToolbarButtonProps> = ({
+export const DecreaseIndentButton: FC<ToolbarButtonProps> = ({
   editor,
   ...buttonProps
 }) => {
@@ -2201,7 +2201,7 @@ export const DecreaseIndentButton: FC<RetapToolbarButtonProps> = ({
       title="declrease Indent"
       aria-label="declrease-indent-button"
       variant={
-        isButtonActive({ editor, nodeOrMark: "textIndent" })
+        isNodeOrMarkActive({ editor, nodeOrMark: "textIndent" })
           ? "solid"
           : "outline"
       }
